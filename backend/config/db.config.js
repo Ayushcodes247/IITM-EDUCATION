@@ -1,13 +1,18 @@
 import { connect } from "mongoose";
 
-const connectToDB = () => {
-  connect(process.env.MONGOURI)
-    .then(() => {
-      console.log("CONNECTED TO THE DATABASE.");
-    })
-    .catch((error) => {
-      console.error("Error in connecting to the DATABASE:", error.message);
-    });
+/**
+ * Connect to MongoDB using Mongoose
+ */
+const connectToDB = async () => {
+  try {
+    // Attempt to connect to the database using the URI from environment variables
+    await connect(process.env.MONGOURI);
+    console.log("Connected to the database.");
+  } catch (error) {
+    // Log detailed error and exit process in production
+    console.error("Error connecting to the database:", error.message);
+    process.exit(1); // Exit process with failure code
+  }
 };
 
 export default connectToDB;
